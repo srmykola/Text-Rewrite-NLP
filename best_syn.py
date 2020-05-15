@@ -37,8 +37,8 @@ class BestSyn:
             except:
                 use_nltk = False
 
-            spacy_raw_word = nlp(unicode(self.word.lower()))
-            spacy_syn_word = nlp(unicode(syn_word.lower()))
+            spacy_raw_word = nlp(str(self.word.lower()))
+            spacy_syn_word = nlp(str(syn_word.lower()))
 
 
             spacy_score = spacy_raw_word.similarity(spacy_syn_word)
