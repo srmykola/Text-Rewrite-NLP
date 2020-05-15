@@ -4,7 +4,7 @@ __git__ = 'https://github.com/woolz/Text-Rewrite-NLP'
 
 from nltk.corpus import wordnet
 import spacy
-import urllib
+import urllib.request
 import json
 
 nlp = spacy.load('en')
@@ -13,7 +13,7 @@ class BestSyn:
 
     def get_datamuse_syn_list(self):
         url = "https://api.datamuse.com/words?ml=" + self.word
-        response = urllib.urlopen(url)
+        response = urllib.request.urlopen(url)
         data = response.read().decode("utf-8")
         json_data = json.loads(data)
         word_list = []
@@ -36,13 +36,13 @@ class BestSyn:
                 nltk_syn_word = wordnet.synsets(syn_word)[0]
             except:
                 use_nltk = False
-            
+
             spacy_raw_word = nlp(unicode(self.word.lower()))
             spacy_syn_word = nlp(unicode(syn_word.lower()))
 
-            
+
             spacy_score = spacy_raw_word.similarity(spacy_syn_word)
-            
+
             if (use_nltk == True):
                 nltk_score = nltk_syn_word.wup_similarity(nltk_raw_word)
                 if (nltk_score == None):
@@ -51,7 +51,7 @@ class BestSyn:
             else:
                 score = spacy_score
 
-                
+
             if (score > self.best_score):
                 self.best_score = score
                 self.best_choice = syn_word
@@ -62,9 +62,3 @@ class BestSyn:
         self.word = False
         self.best_score = False
         self.best_choice = False
-
-
-
-            
-        
-
